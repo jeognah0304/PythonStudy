@@ -1,0 +1,74 @@
+ * 네트워크 수준 분석
+  1. 네트워크 크기
+   네트워크를 구성하는 노드의 수. 네트워크의 규모. 
+   
+   
+   <네트워크 크기 관련 Networkx 코드>
+   
+   import networkx
+   import matplotlib
+   import matplotlib.pyplot as plt
+   
+   G = networkx.Graph()
+   relations = [('나','친구'),('나','가족'),('나','직장동료')]
+   G.add_edges_from(relations)
+   len(G) #네트워크를 구성하는 노드 수
+   G.order() #노드 리스트 명
+   
+   
+  2. 밀도
+   네트워크 노드들 사이에 연결되는 정도를 나타냄.
+   고립노드는 네트워크 내 다른 노드들과 연결 관계가 전혀 없는 노드.
+   
+   밀도= 실제 연결된 링크수 / 연결 가능한 전체 링크수
+   
+      <네트워크 밀도 관련 Networkx 코드>
+      
+      networkx.classes.function.density(G)
+      
+      list(G)
+      ['나','친구','가족','직장동료']
+      # 전체 노드 수
+      a = len(G)
+      # 고립 노드 수
+      b = networkx.algorithms.isolate.number_of_isolates(G)
+      # 절대적 포괄성 값
+      a-b
+      # 상대적 포괄성 값
+      (a-b)/a
+      
+      
+   3. 노드 수준 분석하기
+    * 연결정도(Degree)
+   연결정도느 특정 노드의 영ㅎ향ㄹ력을 파아하는 지표이다. 즉 연결정도가 높으면 해당 노드는 전체 네트워크에서 영향력이 높다.
+    
+    < Networkx코드 >
+    G.to_undirected().size() # 전체엣지수
+    float(c)*2/a #연결정도 평균
+    
+    # 방향,이진 네트워크인 경우.
+    d = networkx.DiGraph()
+    relations = [('나','친구'),('나','가족'),('나','직장동료')]
+    G.add_edges_from(relations)
+    list(d)
+    
+    # 내향 연결정도 정보 확인
+    d.in_degree()
+    InDegreeView({'나':0,'친구':1.'가족':1,'직장동료':1})
+    
+    # 외향 연결정도 정보 확인
+    d.out_degree()
+    
+    # 전체 엣지수
+    d.size()
+    
+    # 나 ↔ 가족 형태로 에지 정보 변경
+    d.add_edge('가족','나')
+    d.in_degree()
+    d.out_degree()
+    d.size()
+    a = d.order()
+    c = d.size()
+    
+    # 내향 연결정도 평균값
+    float(c)/a
